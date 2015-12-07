@@ -19,6 +19,10 @@ add_action( 'admin_enqueue_scripts', 'rest_register_scripts', -100 );
  * @see wp_register_scripts()
  */
 function rest_register_scripts() {
+	// If the client-js build is present, use its js version.
+	if ( function_exists( 'json_api_client_js' ) ) {
+		return;
+	}
 	wp_register_script( 'wp-api', plugins_url( 'wp-api.js', __FILE__ ), array( 'jquery', 'backbone', 'underscore' ), '1.1', true );
 
 	$settings = array( 'root' => esc_url_raw( get_rest_url() ), 'nonce' => wp_create_nonce( 'wp_rest' ) );
